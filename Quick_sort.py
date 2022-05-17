@@ -5,7 +5,6 @@ def quick_sort(draw_info, ascending=True):
     lst = draw_info.lst
     return quicksort(draw_info, lst, 0, len(lst) - 1)
 
-
 def quicksort(draw_info, a, l, r):
     if l >= r:
         return

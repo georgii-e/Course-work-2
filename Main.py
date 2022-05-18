@@ -33,10 +33,11 @@ while running:
         except StopIteration:
             is_sorted = True
             sorting = False
-    draw_info.draw(sorting_alg_name, ascending)  # обнуляє фон та малює заголовки
-    SecondaryElements.show(box1, box2, box3)  # малює прямокутники та текст до них
-    SecondaryElements.draw_error(box1, box2, box3)  # залежить від .show
-    draw_info.draw_list()  # малює стовпці, другий аргумент оновлює екран
+    else:
+        draw_info.draw(sorting_alg_name, ascending)  # обнуляє фон та малює заголовки
+        SecondaryElements.show(box1, box2, box3)  # малює прямокутники та текст до них
+        SecondaryElements.draw_error(box1, box2, box3)  # залежить від .show
+        draw_info.draw_list()  # малює стовпці, другий аргумент оновлює екран
     if is_sorted:
         SecondaryElements.output_success(draw_info.screen)  # напис про успішне сортування
     pygame.display.update()

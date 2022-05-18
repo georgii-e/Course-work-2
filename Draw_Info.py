@@ -27,8 +27,8 @@ class DrawInfo:
     WIDTH = 1600
     SIDE_PAD = 100
     TOP_PAD = 240
-    MAX_AMOUNT_TO_VIZ = 1000  # максимальна кількість елементів, сортування яких буде візуалізуватися
-    FPS = 120  # регулювання швидкості сортування
+    MAX_AMOUNT_TO_VIZ = 500  # максимальна кількість елементів, сортування яких буде візуалізуватися
+    FPS = 75  # регулювання швидкості сортування
     SMALL_FONT = pygame.font.SysFont('comicsans', 36)
     VERY_SMALL_FONT = pygame.font.SysFont('comicsans', 15)
     FONT = pygame.font.SysFont('comicsans', 40)

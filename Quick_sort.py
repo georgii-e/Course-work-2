@@ -3,21 +3,23 @@ def quick_sort(draw_info, ascending=True):
     return quicksort(draw_info, lst, 0, len(lst) - 1, ascending)
 
 
-def quicksort(draw_info, a, l, r, ascending):
+def quicksort(draw_info, lst, l, r, ascending):
+    """Червоний - поточний (опорний елемент), синій та зелений - елементи,
+    що міняються місцями, причому синій - покажчик що змінюється від опорного
+    елемента до правого краю розглядувальної ділянки, а зелений - покажчик
+    що відповідає кількості елементів менших за опорний"""
     if l >= r:
         return
-    x = a[l]
+    x = lst[l]
     j = l
     for i in range(l + 1, r + 1):
-        if a[i] <= x and ascending or a[i] >= x and not ascending:
+        if lst[i] <= x and ascending or lst[i] >= x and not ascending:
             j += 1
-            a[j], a[i] = a[i], a[j]
-            draw_info.draw_list({i: draw_info.GREEN_COLOR, l: draw_info.RED_COLOR, j: draw_info.GREEN_COLOR}, True)
-        yield a
-    a[l], a[j] = a[j], a[l]
+            lst[j], lst[i] = lst[i], lst[j]
+            draw_info.draw_list({i: draw_info.BLUE_COLOR, l: draw_info.RED_COLOR, j: draw_info.GREEN_COLOR}, True)
+            yield lst
+    lst[l], lst[j] = lst[j], lst[l]
     draw_info.draw_list({i: draw_info.GREEN_COLOR, l: draw_info.RED_COLOR, j: draw_info.GREEN_COLOR}, True)
-    yield a
-    draw_info.draw_list({i: draw_info.GREEN_COLOR, l: draw_info.RED_COLOR, j: draw_info.GREEN_COLOR}, True)
-    yield from quicksort(draw_info, a, l, j - 1, ascending)
-    draw_info.draw_list({i: draw_info.GREEN_COLOR, l: draw_info.RED_COLOR, j: draw_info.GREEN_COLOR}, True)
-    yield from quicksort(draw_info, a, j + 1, r, ascending)
+    yield lst
+    yield from quicksort(draw_info, lst, l, j - 1, ascending)
+    yield from quicksort(draw_info, lst, j + 1, r, ascending)

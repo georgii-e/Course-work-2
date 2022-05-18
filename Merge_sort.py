@@ -2,7 +2,8 @@ def merge_sort(draw_info, ascending=True):
     lst = draw_info.lst
 
     def mergesort(start, end):
-        """Червоний - поточний елемент, зелений - той що ставиться на його місце при злитті"""
+        """Підсвічується поточний елемент: синім якщо він
+        був у правій частині, червоним, якщо у лівій"""
         if end - start > 1:
             middle = (start + end) // 2
             yield from mergesort(start, middle)
@@ -15,29 +16,29 @@ def merge_sort(draw_info, ascending=True):
             c = start
 
             while a < len(left) and b < len(right):
-                if left[a] < right[b]:
+                if left[a] < right[b] and ascending or left[a] > right[b] and not ascending:
+                    draw_info.draw_list({c: draw_info.RED_COLOR}, True)
                     lst[c] = left[a]
-                    draw_info.draw_list({a: draw_info.GREEN_COLOR, c: draw_info.RED_COLOR}, True)
                     yield lst
                     a += 1
                 else:
+                    draw_info.draw_list({c: draw_info.BLUE_COLOR}, True)
                     lst[c] = right[b]
-                    draw_info.draw_list({len(left)+b: draw_info.GREEN_COLOR, c: draw_info.RED_COLOR}, True)
                     yield lst
                     b += 1
                 c += 1
 
             while a < len(left):
+                draw_info.draw_list({c: draw_info.RED_COLOR}, True)
                 lst[c] = left[a]
                 a += 1
                 c += 1
 
             while b < len(right):
+                draw_info.draw_list({c: draw_info.BLUE_COLOR}, True)
                 lst[c] = right[b]
                 b += 1
                 c += 1
-            draw_info.draw_list({start: draw_info.GREEN_COLOR, middle: draw_info.RED_COLOR, end: draw_info.GREEN_COLOR},
-                                True)
             yield lst
 
     return mergesort(0, len(lst))

@@ -16,7 +16,7 @@ lst = generate_starting_list(n, min_v, max_v)
 draw_info = DrawInfo(lst)
 running = True
 sorting = False
-is_sorted = False
+is_sorted = {'flag': False, 'ascending': True}
 ascending = True
 sorting_algorithm = quick_sort
 sorting_alg_name = "Quick Sort"
@@ -30,15 +30,16 @@ while running:
     if sorting:
         try:
             next(sorting_algorithm_generator)
+            time.sleep(0.001)
         except StopIteration:
-            is_sorted = True
+            is_sorted['flag'] = True
             sorting = False
     else:
         draw_info.draw(sorting_alg_name, ascending)  # обнуляє фон та малює заголовки
         SecondaryElements.show(box1, box2, box3)  # малює прямокутники та текст до них
         SecondaryElements.draw_error(box1, box2, box3)  # залежить від .show
         draw_info.draw_list()  # малює стовпці, другий аргумент оновлює екран
-    if is_sorted:
+    if is_sorted['flag'] and is_sorted['ascending'] == ascending:
         SecondaryElements.output_success(draw_info.screen)  # напис про успішне сортування
     pygame.display.update()
 
@@ -46,9 +47,10 @@ while running:
         if event.type == pygame.QUIT:
             pygame.quit()
             running = False
-        if event.type == pygame.MOUSEBUTTONDOWN:
+        if event.type == pygame.MOUSEBUTTONDOWN and not sorting:
             if box1.input_rect.collidepoint(event.pos):
-                SecondaryElements.set_colors([True, False, False], box1, box2, box3)  # встановлює колір на рамку, True- активний
+                SecondaryElements.set_colors([True, False, False], box1, box2,
+                                             box3)  # встановлює колір на рамку, True- активний
             elif box2.input_rect.collidepoint(event.pos):
                 SecondaryElements.set_colors([False, True, False], box1, box2, box3)
             elif box3.input_rect.collidepoint(event.pos):
@@ -57,7 +59,7 @@ while running:
                 SecondaryElements.set_colors([False, False, False], box1, box2, box3)
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_r:
-                is_sorted = False
+                is_sorted['flag'] = False
                 sorting = False
                 if box1.is_data_correct():
                     n = int(box1.user_text)
@@ -68,8 +70,11 @@ while running:
                 draw_info.lst = generate_starting_list(n, min_v, max_v)  # аргументи або залишаться за замовч або ні
                 draw_info.set_lst(draw_info.lst)
             elif all([event.key == pygame.K_SPACE, not sorting]):
-                sorting = True
-                sorting_algorithm_generator = sorting_algorithm(draw_info, ascending)
+                if not is_sorted['flag'] or ascending != is_sorted['ascending']:
+                    sorting = True
+                    is_sorted['flag'] = False  # словник для зберігання інформації про стан масиву
+                    is_sorted['ascending'] = ascending  # для виведення напису про успішне сортування
+                    sorting_algorithm_generator = sorting_algorithm(draw_info, ascending)
             elif all([event.key == pygame.K_a, not ascending, not sorting]):
                 ascending = True
             elif all([event.key == pygame.K_d, ascending, not sorting]):
@@ -85,7 +90,8 @@ while running:
                 sorting_alg_name = "Intro sort"
             elif event.key in SecondaryElements.ALLOWED_BUTTONS and any(
                     SecondaryElements.is_active(box1, box2, box3)):  # чи є активна комірка
-                self = [x for x in SecondaryElements.is_active(box1, box2, box3) if x is not False]  # пошук активної комірки
+                self = [x for x in SecondaryElements.is_active(box1, box2, box3) if
+                        x is not False]  # пошук активної комірки
                 self[0].user_text += event.unicode if len(
                     self[0].user_text) < 5 else ""  # додавання символу якщо він не п'ятий і >
             elif event.key == pygame.K_BACKSPACE and any(SecondaryElements.is_active(box1, box2, box3)):

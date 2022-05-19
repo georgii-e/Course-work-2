@@ -11,6 +11,7 @@ class DrawInfo:
     WHITE_COLOR = 255, 255, 255
     RED_COLOR = 255, 0, 0
     GREEN_COLOR = 0, 255, 0
+    BLUE_COLOR = 0, 0, 255
     TITLE_TEXT_COLOR = 166, 116, 88
     SUBTITLE_TEXT_COLOR = 2, 81, 89
     ADDITIONAL_TEXT_COLOR = 63, 133, 140
@@ -28,7 +29,7 @@ class DrawInfo:
     SIDE_PAD = 100
     TOP_PAD = 240
     MAX_AMOUNT_TO_VIZ = 500  # максимальна кількість елементів, сортування яких буде візуалізуватися
-    FPS = 75  # регулювання швидкості сортування
+    FPS = 75  # кількість оновлень головного циклу в секунду
     SMALL_FONT = pygame.font.SysFont('comicsans', 36)
     VERY_SMALL_FONT = pygame.font.SysFont('comicsans', 15)
     FONT = pygame.font.SysFont('comicsans', 40)

@@ -1,7 +1,7 @@
 def quick_sort(draw_info, ascending=True):
     lst = draw_info.lst
 
-    def quicksort(draw_info, lst, l, r):
+    def quicksort(l, r):
         """Червоний - поточний (опорний елемент), синій та зелений - елементи,
         що міняються місцями, причому синій - покажчик що змінюється від опорного
         елемента до правого краю розглядувальної ділянки, а зелений - покажчик
@@ -19,7 +19,7 @@ def quick_sort(draw_info, ascending=True):
         lst[l], lst[j] = lst[j], lst[l]
         draw_info.draw_list({i: draw_info.GREEN_COLOR, l: draw_info.RED_COLOR, j: draw_info.GREEN_COLOR}, True)
         yield lst
-        yield from quicksort(draw_info, lst, l, j - 1)
-        yield from quicksort(draw_info, lst, j + 1, r)
+        yield from quicksort(l, j - 1)
+        yield from quicksort(j + 1, r)
 
-    return quicksort(draw_info, lst, 0, len(lst) - 1)
+    return quicksort(0, len(lst) - 1)

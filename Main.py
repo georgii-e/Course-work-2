@@ -6,7 +6,7 @@ from Intro_sort import intro_sort
 from Quick_sort import quick_sort
 from Merge_sort import merge_sort
 import pygame
-import sys
+
 
 pygame.init()
 n = 150

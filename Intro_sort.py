@@ -1,12 +1,13 @@
 from math import log2, floor
+from Draw_Info import DrawInfo
 import time
 
 
-def intro_sort(draw_info, ascending=True):
+def intro_sort(lst_control, ascending=True):
     """Інтроспективне сортування: швидке сортування,
     яке перемикається на пірамідальне при досяжності
     max_depth = floor(log2(len(lst)))"""
-    lst = draw_info.lst
+    lst = lst_control.lst
     max_depth = floor(log2(len(lst)))
 
     def intro_sort_helper(start, end, max_depth_curr):
@@ -57,7 +58,7 @@ def intro_sort(draw_info, ascending=True):
         методи сортування виконувалися приблизно однаково, як і має бути враховуючи
         їх асимптотичну складність і щоб занадто частий виклик функції не спричиняв
         підвисання програми"""
-        draw_info.draw_list({i: draw_info.GREEN_COLOR, j: draw_info.RED_COLOR}, True)
+        lst_control.draw_list({i: DrawInfo.GREEN_COLOR, j: DrawInfo.RED_COLOR}, True)
         time.sleep(0.015)
         lst[i], lst[j] = lst[j], lst[i]
 

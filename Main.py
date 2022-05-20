@@ -1,5 +1,7 @@
 import time
-from Gen_Secondary import generate_starting_list, SecondaryElements
+import Config
+from Array_processing import ArrayProcessing
+from Gen_Secondary import SecondaryElements
 from Draw_Info import DrawInfo
 from Sound_control import SoundControl
 from Intro_sort import intro_sort
@@ -7,27 +9,27 @@ from Quick_sort import quick_sort
 from Merge_sort import merge_sort
 import pygame
 
-
 pygame.init()
 n = 150
 min_v = -100
 max_v = 100
-lst = generate_starting_list(n, min_v, max_v)
-draw_info = DrawInfo(lst)
+sorting_algorithm = quick_sort
+sorting_alg_name = "Quick Sort"
+draw_info = DrawInfo()
+lst_control = ArrayProcessing(draw_info.screen)
+lst_control.generate_list(n, min_v, max_v)
 sound = SoundControl()
 running = True
 sorting = False
 ascending = True
 is_sorted = {'flag': False, 'ascending': True}
-sorting_algorithm = quick_sort
-sorting_alg_name = "Quick Sort"
 clock = pygame.time.Clock()
-box1 = SecondaryElements("Size:", DrawInfo.SIDE_PAD / 2, 170, draw_info.screen)
+box1 = SecondaryElements("Size:", ArrayProcessing.SIDE_PAD / 2, 170, draw_info.screen)
 box2 = SecondaryElements("Max value:", DrawInfo.WIDTH / 2 - 100, 170, draw_info.screen)
-box3 = SecondaryElements("Min value:", DrawInfo.WIDTH - 3 * DrawInfo.SIDE_PAD, 170, draw_info.screen)
+box3 = SecondaryElements("Min value:", DrawInfo.WIDTH - 3 * ArrayProcessing.SIDE_PAD, 170, draw_info.screen)
 
 while running:
-    clock.tick(DrawInfo.FPS)
+    clock.tick(Config.FPS)
     if sorting:
         try:
             next(sorting_algorithm_generator)
@@ -41,7 +43,7 @@ while running:
         draw_info.draw(sorting_alg_name, ascending)  # обнуляє фон та малює заголовки
         SecondaryElements.show(box1, box2, box3)  # малює прямокутники та текст до них
         SecondaryElements.draw_error(box1, box2, box3)  # залежить від .show
-        draw_info.draw_list()  # малює стовпці, другий аргумент оновлює екран
+        lst_control.draw_list()  # малює стовпці
     if is_sorted['flag'] and is_sorted['ascending'] == ascending:
         SecondaryElements.output_success(draw_info.screen)  # напис про успішне сортування
     pygame.display.update()
@@ -70,13 +72,12 @@ while running:
                 sound.stop_sounds("sorting")
                 sorting = False
                 if box1.is_data_correct():
-                    n = int(box1.user_text)
+                    n = int(box1.get_user_text())
                 if box2.is_data_correct():
-                    max_v = int(box2.user_text)
+                    max_v = int(box2.get_user_text())
                 if box3.is_data_correct():
-                    min_v = int(box3.user_text)
-                draw_info.lst = generate_starting_list(n, min_v, max_v)  # аргументи або залишаться за замовч або ні
-                draw_info.set_lst(draw_info.lst)
+                    min_v = int(box3.get_user_text())
+                lst_control.generate_list(n, min_v, max_v)  # аргументи або залишаться за замовч або ні
             elif all([event.key == pygame.K_SPACE, not sorting]):
                 if not is_sorted['flag'] or ascending != is_sorted['ascending']:
                     sound.play_sounds("press key")
@@ -84,7 +85,7 @@ while running:
                     is_sorted['flag'] = False  # словник для зберігання інформації про стан масиву
                     is_sorted['ascending'] = ascending  # для виведення напису про успішне сортування
                     sound.play_sounds("sorting")
-                    sorting_algorithm_generator = sorting_algorithm(draw_info, ascending)
+                    sorting_algorithm_generator = sorting_algorithm(lst_control, ascending)
             elif all([event.key == pygame.K_a, not ascending, not sorting]):
                 sound.play_sounds("press key")
                 ascending = True
@@ -108,10 +109,10 @@ while running:
                 self = [x for x in SecondaryElements.is_active(box1, box2, box3) if
                         x is not False]  # пошук активної комірки
                 sound.play_sounds("press key")
-                self[0].user_text += event.unicode if len(
-                    self[0].user_text) < 5 else ""  # додавання символу якщо він не п'ятий і >
+                self[0].add_user_text(event.unicode) if len(
+                    self[0].get_user_text()) < 5 else ""  # додавання символу якщо він не п'ятий і >
             elif event.key == pygame.K_BACKSPACE and any(SecondaryElements.is_active(box1, box2, box3)):
                 self = [x for x in SecondaryElements.is_active(box1, box2, box3) if
                         x is not False]  # аналогічне видалення символу
                 sound.play_sounds("press key")
-                self[0].user_text = self[0].user_text[:-1]
+                self[0].set_user_text(self[0].get_user_text()[:-1])

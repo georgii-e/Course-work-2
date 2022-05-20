@@ -1,5 +1,8 @@
-def merge_sort(draw_info, ascending=True):
-    lst = draw_info.lst
+from Draw_Info import DrawInfo
+
+
+def merge_sort(lst_control, ascending=True):
+    lst = lst_control.lst
 
     def mergesort(start, end):
         """Підсвічується поточний елемент: синім якщо він
@@ -17,25 +20,25 @@ def merge_sort(draw_info, ascending=True):
 
             while a < len(left) and b < len(right):
                 if left[a] < right[b] and ascending or left[a] > right[b] and not ascending:
-                    draw_info.draw_list({c: draw_info.RED_COLOR}, True)
+                    lst_control.draw_list({c: DrawInfo.RED_COLOR}, True)
                     lst[c] = left[a]
                     yield lst
                     a += 1
                 else:
-                    draw_info.draw_list({c: draw_info.BLUE_COLOR}, True)
+                    lst_control.draw_list({c: DrawInfo.BLUE_COLOR}, True)
                     lst[c] = right[b]
                     yield lst
                     b += 1
                 c += 1
 
             while a < len(left):
-                draw_info.draw_list({c: draw_info.RED_COLOR}, True)
+                lst_control.draw_list({c: DrawInfo.RED_COLOR}, True)
                 lst[c] = left[a]
                 a += 1
                 c += 1
 
             while b < len(right):
-                draw_info.draw_list({c: draw_info.BLUE_COLOR}, True)
+                lst_control.draw_list({c: DrawInfo.BLUE_COLOR}, True)
                 lst[c] = right[b]
                 b += 1
                 c += 1

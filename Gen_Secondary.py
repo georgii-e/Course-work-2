@@ -1,4 +1,3 @@
-import random
 import pygame
 from Draw_Info import DrawInfo
 
@@ -12,12 +11,14 @@ class SecondaryElements:
                        pygame.K_8, pygame.K_9, pygame.K_MINUS]  # цифри (від 1 до 9 та -) що будуть зчитуватися
     ERROR_TEXT = "Incorrect value"
     SUCCESS_TEXT = "SUCCESS"
+    MIN_ADMISSIBLE_AMOUNT_OF_ELEMENTS = 100  # допустимі межі розміру
+    MAX_ADMISSIBLE_AMOUNT_OF_ELEMENTS = 50000  # масиву згідно з варіантом
 
     def __init__(self, text, x, y, screen):
         """Оголошення розмірів, координат та кольору другорядного тексту і форм введення"""
-        self.width = 60
-        self.height = 45
-        self.user_text = ""
+        self.__width = 60
+        self.__height = 45
+        self.__user_text = ""
         self.text = text
         self.text_rect = DrawInfo.SMALL_FONT.render(self.text, 1, DrawInfo.BLACK_COLOR)
         self.color_passive = DrawInfo.FORM_COLOR_PASSIVE
@@ -28,11 +29,20 @@ class SecondaryElements:
         self.y = y
         self.color = self.color_passive
 
+    def get_user_text(self):
+        return self.__user_text
+
+    def set_user_text(self, text):
+        self.__user_text = text
+
+    def add_user_text(self, text):
+        self.__user_text += text
+
     def output_forms(self):
         """Виведення тексту і форм"""
-        users_text_rect = DrawInfo.SMALL_FONT.render(self.user_text, 1, DrawInfo.BLACK_COLOR)
+        users_text_rect = DrawInfo.SMALL_FONT.render(self.__user_text, 1, DrawInfo.BLACK_COLOR)
         self.input_rect = pygame.Rect(self.x + self.text_rect.get_width(), self.y + 5,
-                                      max(self.width, users_text_rect.get_width()), self.height)
+                                      max(self.__width, users_text_rect.get_width()), self.__height)
         pygame.draw.rect(self.screen, self.color, self.input_rect, 2)
         self.screen.blit(self.text_rect, (self.x, self.y))
         self.screen.blit(users_text_rect, (self.input_rect.x, self.y + 2))
@@ -40,12 +50,14 @@ class SecondaryElements:
     def is_data_correct(self):
         """Перевірка коректності введених даних"""
         if self.text == "Size:":
-            if not (self.user_text.isdigit() and int(self.user_text) in range(100, 50000)):
+            if not (self.__user_text.isdigit() and int(self.__user_text) in range(
+                    self.MIN_ADMISSIBLE_AMOUNT_OF_ELEMENTS,
+                    self.MAX_ADMISSIBLE_AMOUNT_OF_ELEMENTS)):
                 return False
             return True
         if self.text == "Max value:" or self.text == "Min value:":
             is_digit = lambda x: x.isdigit() if x[:1] != '-' else x[1:].isdigit()
-            if not is_digit(self.user_text):
+            if not is_digit(self.__user_text):
                 return False
             return True
         else:
@@ -65,7 +77,7 @@ class SecondaryElements:
         for self in boxes:
             if not self.is_data_correct():
                 error_text_rect = DrawInfo.VERY_SMALL_FONT.render(self.ERROR_TEXT, 1, DrawInfo.RED_COLOR)
-                self.screen.blit(error_text_rect, (self.input_rect.x - 20, self.y + self.height + 5))
+                self.screen.blit(error_text_rect, (self.input_rect.x - 20, self.y + self.__height + 5))
 
     @staticmethod
     def show(*boxes):
@@ -87,15 +99,3 @@ class SecondaryElements:
         """Статичний метод, що повертає список активності
         форм (завжди активне лише одна)"""
         return [box if box.color == box.color_active else False for box in boxes]
-
-
-def generate_starting_list(n, min_val, max_val):
-    """Генерація масиву, міняє місцями максимальне і
-    мінімальне значення в разі необхідності"""
-    lst = []
-    if max_val < min_val:
-        max_val, min_val = min_val, max_val
-    for i in range(n):
-        val = random.randint(min_val, max_val)
-        lst.append(val)
-    return lst

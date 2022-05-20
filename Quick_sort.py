@@ -1,5 +1,8 @@
-def quick_sort(draw_info, ascending=True):
-    lst = draw_info.lst
+from Draw_Info import DrawInfo
+
+
+def quick_sort(lst_control, ascending=True):
+    lst = lst_control.lst
 
     def quicksort(l, r):
         """Червоний - поточний (опорний елемент), синій та зелений - елементи,
@@ -14,10 +17,10 @@ def quick_sort(draw_info, ascending=True):
             if lst[i] <= x and ascending or lst[i] >= x and not ascending:
                 j += 1
                 lst[j], lst[i] = lst[i], lst[j]
-                draw_info.draw_list({i: draw_info.BLUE_COLOR, l: draw_info.RED_COLOR, j: draw_info.GREEN_COLOR}, True)
+                lst_control.draw_list({i: DrawInfo.BLUE_COLOR, l: DrawInfo.RED_COLOR, j: DrawInfo.GREEN_COLOR}, True)
                 yield lst
         lst[l], lst[j] = lst[j], lst[l]
-        draw_info.draw_list({i: draw_info.GREEN_COLOR, l: draw_info.RED_COLOR, j: draw_info.GREEN_COLOR}, True)
+        lst_control.draw_list({l: DrawInfo.RED_COLOR, j: DrawInfo.GREEN_COLOR}, True)
         yield lst
         yield from quicksort(l, j - 1)
         yield from quicksort(j + 1, r)

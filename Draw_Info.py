@@ -28,7 +28,7 @@ class DrawInfo:
     WIDTH = 1600
     SIDE_PAD = 100
     TOP_PAD = 240
-    MAX_AMOUNT_TO_VIZ = 500  # максимальна кількість елементів, сортування яких буде візуалізуватися
+    MAX_AMOUNT_TO_VIZ = 1000  # максимальна кількість елементів, сортування яких буде візуалізуватися
     FPS = 75  # кількість оновлень головного циклу в секунду
     SMALL_FONT = pygame.font.SysFont('comicsans', 36)
     VERY_SMALL_FONT = pygame.font.SysFont('comicsans', 15)
@@ -81,5 +81,5 @@ class DrawInfo:
                 if i in color_positions:
                     color = color_positions[i]
                 pygame.draw.rect(self.screen, color, (x, y, self.block_width, self.HEIGHT - y))
-        if clear_bg:
-            pygame.display.update()
+            if clear_bg:
+                pygame.display.update()

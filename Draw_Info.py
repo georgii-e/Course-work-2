@@ -32,19 +32,22 @@ class DrawInfo:
 
     def __init__(self):
         """Встановлення головного екрану та стовпців"""
-        self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
+        self.__screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
         pygame.display.set_caption("Course work Yehor Vasyliev")
         pygame.display.set_icon(pygame.image.load("media/icon.png"))
 
     def draw(self, alg_name, ascending):
         """Виведення головного тексту"""
-        self.screen.fill(self.BACKGROUND_COLOR)
+        self.__screen.fill(self.BACKGROUND_COLOR)
         title = self.LARGE_FONT.render(f"{alg_name} - {'Ascending' if ascending else 'Descending'}", 1,
                                        self.TITLE_TEXT_COLOR)
-        self.screen.blit(title, ((self.WIDTH - title.get_width()) / 2, -20))
+        self.__screen.blit(title, ((self.WIDTH - title.get_width()) / 2, -20))
         sorting = self.FONT.render(" M - merge sort | Q - quick sort | I - intro sort", 1,
                                    self.SUBTITLE_TEXT_COLOR)
-        self.screen.blit(sorting, ((self.WIDTH - sorting.get_width()) / 2, 65))
+        self.__screen.blit(sorting, ((self.WIDTH - sorting.get_width()) / 2, 65))
         controls = self.FONT.render("A - ascending | D - descending | R - reset | SPACE - start sorting", 1,
                                     self.BLACK_COLOR)
-        self.screen.blit(controls, ((self.WIDTH - controls.get_width()) / 2, 115))
+        self.__screen.blit(controls, ((self.WIDTH - controls.get_width()) / 2, 115))
+
+    def get_screen(self):
+        return self.__screen

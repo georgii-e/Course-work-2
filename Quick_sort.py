@@ -2,7 +2,7 @@ from Draw_Info import DrawInfo
 
 
 def quick_sort(lst_control, ascending=True):
-    lst = lst_control.lst
+    lst = lst_control.get_lst()
 
     def quicksort(l, r):
         """Червоний - поточний (опорний елемент), синій та зелений - елементи,

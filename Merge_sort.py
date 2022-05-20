@@ -2,7 +2,7 @@ from Draw_Info import DrawInfo
 
 
 def merge_sort(lst_control, ascending=True):
-    lst = lst_control.lst
+    lst = lst_control.get_lst()
 
     def mergesort(start, end):
         """Підсвічується поточний елемент: синім якщо він

@@ -7,7 +7,7 @@ def intro_sort(lst_control, ascending=True):
     """Інтроспективне сортування: швидке сортування,
     яке перемикається на пірамідальне при досяжності
     max_depth = floor(log2(len(lst)))"""
-    lst = lst_control.lst
+    lst = lst_control.get_lst()
     max_depth = floor(log2(len(lst)))
 
     def intro_sort_helper(start, end, max_depth_curr):

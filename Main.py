@@ -10,13 +10,13 @@ from Merge_sort import merge_sort
 import pygame
 
 pygame.init()
-n = 150
-min_v = -100
-max_v = 100
-sorting_algorithm = quick_sort
-sorting_alg_name = "Quick Sort"
+sorting_algorithm = Config.sorting_algorithm
+sorting_alg_name = Config.sorting_alg_name
+n = Config.n
+min_v = Config.min_v
+max_v = Config.max_v
 draw_info = DrawInfo()
-lst_control = ArrayProcessing(draw_info.screen)
+lst_control = ArrayProcessing(draw_info.get_screen())
 lst_control.generate_list(n, min_v, max_v)
 sound = SoundControl()
 running = True
@@ -24,9 +24,9 @@ sorting = False
 ascending = True
 is_sorted = {'flag': False, 'ascending': True}
 clock = pygame.time.Clock()
-box1 = SecondaryElements("Size:", ArrayProcessing.SIDE_PAD / 2, 170, draw_info.screen)
-box2 = SecondaryElements("Max value:", DrawInfo.WIDTH / 2 - 100, 170, draw_info.screen)
-box3 = SecondaryElements("Min value:", DrawInfo.WIDTH - 3 * ArrayProcessing.SIDE_PAD, 170, draw_info.screen)
+box1 = SecondaryElements("Size:", ArrayProcessing.SIDE_PAD / 2, 170, draw_info.get_screen())
+box2 = SecondaryElements("Max value:", DrawInfo.WIDTH / 2 - 100, 170, draw_info.get_screen())
+box3 = SecondaryElements("Min value:", DrawInfo.WIDTH - 3 * ArrayProcessing.SIDE_PAD, 170, draw_info.get_screen())
 
 while running:
     clock.tick(Config.FPS)
@@ -45,7 +45,7 @@ while running:
         SecondaryElements.draw_error(box1, box2, box3)  # залежить від .show
         lst_control.draw_list()  # малює стовпці
     if is_sorted['flag'] and is_sorted['ascending'] == ascending:
-        SecondaryElements.output_success(draw_info.screen)  # напис про успішне сортування
+        SecondaryElements.output_success(draw_info.get_screen())  # напис про успішне сортування
     pygame.display.update()
 
     for event in pygame.event.get():
@@ -53,14 +53,14 @@ while running:
             pygame.quit()
             running = False
         if event.type == pygame.MOUSEBUTTONDOWN and not sorting:
-            if box1.input_rect.collidepoint(event.pos):
+            if box1.get_rect_size().collidepoint(event.pos):
                 SecondaryElements.set_colors([True, False, False], box1, box2,
                                              box3)  # встановлює колір на рамку, True- активний
                 sound.play_sounds("mouse click")
-            elif box2.input_rect.collidepoint(event.pos):
+            elif box2.get_rect_size().collidepoint(event.pos):
                 SecondaryElements.set_colors([False, True, False], box1, box2, box3)
                 sound.play_sounds("mouse click")
-            elif box3.input_rect.collidepoint(event.pos):
+            elif box3.get_rect_size().collidepoint(event.pos):
                 SecondaryElements.set_colors([False, False, True], box1, box2, box3)
                 sound.play_sounds("mouse click")
             else:

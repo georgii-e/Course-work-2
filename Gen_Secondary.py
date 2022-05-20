@@ -19,15 +19,15 @@ class SecondaryElements:
         self.__width = 60
         self.__height = 45
         self.__user_text = ""
-        self.text = text
-        self.text_rect = DrawInfo.SMALL_FONT.render(self.text, 1, DrawInfo.BLACK_COLOR)
-        self.color_passive = DrawInfo.FORM_COLOR_PASSIVE
-        self.color_active = DrawInfo.FORM_COLOR_ACTIVE
-        self.text_color = DrawInfo.ADDITIONAL_TEXT_COLOR
-        self.screen = screen
-        self.x = x
-        self.y = y
-        self.color = self.color_passive
+        self.__text = text
+        self.__text_rect = DrawInfo.SMALL_FONT.render(self.__text, 1, DrawInfo.BLACK_COLOR)
+        self.__color_passive = DrawInfo.FORM_COLOR_PASSIVE
+        self.__color_active = DrawInfo.FORM_COLOR_ACTIVE
+        self.__text_color = DrawInfo.ADDITIONAL_TEXT_COLOR
+        self.__screen = screen
+        self.__x = x
+        self.__y = y
+        self.__color = self.__color_passive
 
     def get_user_text(self):
         return self.__user_text
@@ -41,21 +41,24 @@ class SecondaryElements:
     def output_forms(self):
         """Виведення тексту і форм"""
         users_text_rect = DrawInfo.SMALL_FONT.render(self.__user_text, 1, DrawInfo.BLACK_COLOR)
-        self.input_rect = pygame.Rect(self.x + self.text_rect.get_width(), self.y + 5,
-                                      max(self.__width, users_text_rect.get_width()), self.__height)
-        pygame.draw.rect(self.screen, self.color, self.input_rect, 2)
-        self.screen.blit(self.text_rect, (self.x, self.y))
-        self.screen.blit(users_text_rect, (self.input_rect.x, self.y + 2))
+        self.__input_rect = pygame.Rect(self.__x + self.__text_rect.get_width(), self.__y + 5,
+                                        max(self.__width, users_text_rect.get_width()), self.__height)
+        pygame.draw.rect(self.__screen, self.__color, self.__input_rect, 2)
+        self.__screen.blit(self.__text_rect, (self.__x, self.__y))
+        self.__screen.blit(users_text_rect, (self.__input_rect.x, self.__y + 2))
+
+    def get_rect_size(self):
+        return self.__input_rect
 
     def is_data_correct(self):
         """Перевірка коректності введених даних"""
-        if self.text == "Size:":
+        if self.__text == "Size:":
             if not (self.__user_text.isdigit() and int(self.__user_text) in range(
                     self.MIN_ADMISSIBLE_AMOUNT_OF_ELEMENTS,
                     self.MAX_ADMISSIBLE_AMOUNT_OF_ELEMENTS)):
                 return False
             return True
-        if self.text == "Max value:" or self.text == "Min value:":
+        if self.__text == "Max value:" or self.__text == "Min value:":
             is_digit = lambda x: x.isdigit() if x[:1] != '-' else x[1:].isdigit()
             if not is_digit(self.__user_text):
                 return False
@@ -77,7 +80,7 @@ class SecondaryElements:
         for self in boxes:
             if not self.is_data_correct():
                 error_text_rect = DrawInfo.VERY_SMALL_FONT.render(self.ERROR_TEXT, 1, DrawInfo.RED_COLOR)
-                self.screen.blit(error_text_rect, (self.input_rect.x - 20, self.y + self.__height + 5))
+                self.__screen.blit(error_text_rect, (self.__input_rect.x - 20, self.__y + self.__height + 5))
 
     @staticmethod
     def show(*boxes):
@@ -91,11 +94,11 @@ class SecondaryElements:
         за (не) активність форм та відповідно змінює їх кольори"""
         i = 0
         for box in boxes:
-            box.color = box.color_active if values[i] is True else box.color_passive
+            box.__color = box.__color_active if values[i] is True else box.__color_passive
             i += 1
 
     @staticmethod
     def is_active(*boxes):
         """Статичний метод, що повертає список активності
         форм (завжди активне лише одна)"""
-        return [box if box.color == box.color_active else False for box in boxes]
+        return [box if box.__color == box.__color_active else False for box in boxes]

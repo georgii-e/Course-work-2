@@ -4,24 +4,27 @@ from Array_processing import ArrayProcessing
 from Gen_Secondary import SecondaryElements
 from Draw_Info import DrawInfo
 from Sound_control import SoundControl
-from Intro_sort import intro_sort
-from Quick_sort import quick_sort
-from Merge_sort import merge_sort
+from Intro_sort import IntroSort
+from Quick_sort import QuickSort
+from Merge_sort import MergeSort
 import pygame
 
 pygame.init()
-sorting_algorithm = Config.sorting_algorithm
-sorting_alg_name = Config.sorting_alg_name
 n = Config.n
 min_v = Config.min_v
 max_v = Config.max_v
 draw_info = DrawInfo()
-lst_control = ArrayProcessing(draw_info.get_screen())
-lst_control.generate_list(n, min_v, max_v)
-sound = SoundControl()
 running = True
 sorting = False
 ascending = True
+lst_control = ArrayProcessing(draw_info.get_screen())
+lst_control.generate_list(n, min_v, max_v)
+sorting_algorithm = Config.sorting_algorithm
+sorting_alg_name = Config.sorting_alg_name
+quick_sort = QuickSort(lst_control, ascending)
+sorting_algorithm = Config.sorting_algorithm
+sorting_alg_name = sorting_algorithm.SORTING_ALG_NAME
+sound = SoundControl()
 is_sorted = {'flag': False, 'ascending': True}
 clock = pygame.time.Clock()
 box1 = SecondaryElements("Size:", ArrayProcessing.SIDE_PAD / 2, 170, draw_info.get_screen())
@@ -39,6 +42,7 @@ while running:
             sound.play_sounds("success")
             sorting = False
             sound.stop_sounds("sorting")
+            print("Comp:", sort_with.count_of_comparisons, "Swaps:", sort_with.count_of_swaps)
     else:
         draw_info.draw(sorting_alg_name, ascending)  # обнуляє фон та малює заголовки
         SecondaryElements.show(box1, box2, box3)  # малює прямокутники та текст до них
@@ -85,7 +89,8 @@ while running:
                     is_sorted['flag'] = False  # словник для зберігання інформації про стан масиву
                     is_sorted['ascending'] = ascending  # для виведення напису про успішне сортування
                     sound.play_sounds("sorting")
-                    sorting_algorithm_generator = sorting_algorithm(lst_control, ascending)
+                    sort_with = sorting_algorithm(lst_control, ascending)
+                    sorting_algorithm_generator = sort_with.sort(0, len(lst_control.get_lst()))
             elif all([event.key == pygame.K_a, not ascending, not sorting]):
                 sound.play_sounds("press key")
                 ascending = True
@@ -94,16 +99,16 @@ while running:
                 ascending = False
             elif all([event.key == pygame.K_q, not sorting]):
                 sound.play_sounds("press key")
-                sorting_algorithm = quick_sort  # назва функції для генератора
-                sorting_alg_name = "Quick sort"  # назва алгоритму для вивода на екран
+                sorting_algorithm = QuickSort
+                sorting_alg_name = QuickSort.SORTING_ALG_NAME
             elif all([event.key == pygame.K_m, not sorting]):
                 sound.play_sounds("press key")
-                sorting_algorithm = merge_sort
-                sorting_alg_name = "Merge sort"
+                sorting_algorithm = MergeSort
+                sorting_alg_name = MergeSort.SORTING_ALG_NAME
             elif all([event.key == pygame.K_i, not sorting]):
                 sound.play_sounds("press key")
-                sorting_algorithm = intro_sort
-                sorting_alg_name = "Intro sort"
+                sorting_algorithm = IntroSort
+                sorting_alg_name = IntroSort.SORTING_ALG_NAME
             elif event.key in SecondaryElements.ALLOWED_BUTTONS and any(
                     SecondaryElements.is_active(box1, box2, box3)):  # чи є активна комірка
                 self = [x for x in SecondaryElements.is_active(box1, box2, box3) if

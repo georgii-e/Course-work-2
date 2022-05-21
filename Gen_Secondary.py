@@ -11,7 +11,7 @@ class SecondaryElements:
                        pygame.K_8, pygame.K_9, pygame.K_MINUS]  # цифри (від 1 до 9 та -) що будуть зчитуватися
     ERROR_TEXT = "Incorrect value"
     SUCCESS_TEXT = "SUCCESS"
-    MIN_ADMISSIBLE_AMOUNT_OF_ELEMENTS = 100  # допустимі межі розміру
+    MIN_ADMISSIBLE_AMOUNT_OF_ELEMENTS = 50  # допустимі межі розміру
     MAX_ADMISSIBLE_AMOUNT_OF_ELEMENTS = 50000  # масиву згідно з варіантом
 
     def __init__(self, text, x, y, screen):

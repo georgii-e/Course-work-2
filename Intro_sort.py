@@ -7,56 +7,56 @@ class IntroSort:
     """Інтроспективне сортування: швидке сортування,
     яке перемикається на пірамідальне при досяжності
     max_depth = floor(log2(len(lst)))"""
-    SORTING_ALG_NAME = "Intro sort"
+    __SORTING_ALG_NAME = "Intro sort"
 
     def __init__(self, lst_control, ascending):
-        self.count_of_comparisons = 0
-        self.count_of_swaps = 0
-        self.lst_control = lst_control
-        self.lst = self.lst_control.get_lst()
-        self.ascending = ascending
-        self.max_depth = floor(log2(len(self.lst)))
+        self.__count_of_comparisons = 0
+        self.__count_of_swaps = 0
+        self.__lst_control = lst_control
+        self.__lst = self.__lst_control.get_lst()
+        self.__ascending = ascending
+        self.__max_depth = floor(log2(len(self.__lst)))
 
     def sort(self, start, end, max_depth_curr=None):
         if max_depth_curr is None:
-            max_depth_curr = self.max_depth
+            max_depth_curr = self.__max_depth
         if end - start <= 1:
             return
         elif max_depth_curr == 0:
             yield from self.heapsort(start, end)
         else:
             p = self.partition(start, end)
-            yield self.lst
+            yield self.__lst
             yield from self.sort(start, p + 1, max_depth_curr - 1)
-            yield self.lst
+            yield self.__lst
             yield from self.sort(p + 1, end, max_depth_curr - 1)
 
     def partition(self, start, end):
         """Швидке сортування яке повертає індекс елемента,
         який розділяє масив на два: один з елементами
         меншими за опорний, інший з більшими"""
-        pivot = self.lst[start]
+        pivot = self.__lst[start]
         left = start - 1
         right = end
 
         while True:
             left = left + 1
-            if self.ascending:
-                while self.lst[left] < pivot:
-                    self.count_of_comparisons += 1
+            if self.__ascending:
+                while self.__lst[left] < pivot:
+                    self.__count_of_comparisons += 1
                     left = left + 1
             else:
-                while self.lst[left] > pivot:
-                    self.count_of_comparisons += 1
+                while self.__lst[left] > pivot:
+                    self.__count_of_comparisons += 1
                     left = left + 1
             right = right - 1
-            if self.ascending:
-                while self.lst[right] > pivot:
-                    self.count_of_comparisons += 1
+            if self.__ascending:
+                while self.__lst[right] > pivot:
+                    self.__count_of_comparisons += 1
                     right = right - 1
             else:
-                while self.lst[right] < pivot:
-                    self.count_of_comparisons += 1
+                while self.__lst[right] < pivot:
+                    self.__count_of_comparisons += 1
                     right = right - 1
 
             if left >= right:
@@ -71,17 +71,17 @@ class IntroSort:
         методи сортування виконувалися приблизно однаково, як і має бути враховуючи
         їх асимптотичну складність і щоб занадто частий виклик функції не спричиняв
         підвисання програми"""
-        self.count_of_swaps += 1
-        self.lst_control.draw_list({i: DrawInfo.GREEN_COLOR, j: DrawInfo.RED_COLOR}, True)
+        self.__count_of_swaps += 1
+        self.__lst_control.draw_list({i: DrawInfo.GREEN_COLOR, j: DrawInfo.RED_COLOR}, True)
         time.sleep(0.015)
-        self.lst[i], self.lst[j] = self.lst[j], self.lst[i]
+        self.__lst[i], self.__lst[j] = self.__lst[j], self.__lst[i]
 
     def heapsort(self, start, end):
         """Пірамідальне сортування певної частини масиву"""
         yield from self.build_heap(start, end)
         for i in range(end - 1, start, -1):
             self.swap(start, i)
-            if self.ascending:
+            if self.__ascending:
                 yield from self.max_heapify(i=0, start=start, end=i)
             else:
                 yield from self.min_heapify(i=0, start=start, end=i)
@@ -91,7 +91,7 @@ class IntroSort:
         length = end - start
         index = ((length - 1) - 1) // 2  # батько
         while index >= 0:
-            if self.ascending:
+            if self.__ascending:
                 yield from self.max_heapify(index, start, end)
             else:
                 yield from self.min_heapify(index, start, end)
@@ -103,10 +103,10 @@ class IntroSort:
         l = 2 * i + 1
         r = 2 * i + 2
         largest = i
-        self.count_of_comparisons += 2
-        if l < size and self.lst[start + l] > self.lst[start + i]:
+        self.__count_of_comparisons += 2
+        if l < size and self.__lst[start + l] > self.__lst[start + i]:
             largest = l
-        if r < size and self.lst[start + r] > self.lst[start + largest]:
+        if r < size and self.__lst[start + r] > self.__lst[start + largest]:
             largest = r
         if largest != i:
             self.swap(start + largest, start + i)
@@ -118,11 +118,24 @@ class IntroSort:
         l = 2 * i + 1
         r = 2 * i + 2
         smallest = i
-        self.count_of_comparisons += 2
-        if l < size and self.lst[start + l] < self.lst[start + i]:
+        self.__count_of_comparisons += 2
+        if l < size and self.__lst[start + l] < self.__lst[start + i]:
             smallest = l
-        if r < size and self.lst[start + r] < self.lst[start + smallest]:
+        if r < size and self.__lst[start + r] < self.__lst[start + smallest]:
             smallest = r
         if smallest != i:
             self.swap(start + smallest, start + i)
             yield from self.min_heapify(smallest, start, end)
+
+    @staticmethod
+    def get_name():
+        return IntroSort.__SORTING_ALG_NAME
+
+    def get_swaps(self):
+        return self.__count_of_swaps
+
+    def get_comparisons(self):
+        return self.__count_of_comparisons
+
+    def get_list_length(self):
+        return len(self.__lst)

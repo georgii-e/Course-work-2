@@ -7,6 +7,7 @@ from Sound_control import SoundControl
 from Intro_sort import IntroSort
 from Quick_sort import QuickSort
 from Merge_sort import MergeSort
+from Write_to_file import write_to_file, clear_file
 import pygame
 
 pygame.init()
@@ -19,11 +20,11 @@ sorting = False
 ascending = True
 lst_control = ArrayProcessing(draw_info.get_screen())
 lst_control.generate_list(n, min_v, max_v)
-sorting_algorithm = Config.sorting_algorithm
-sorting_alg_name = Config.sorting_alg_name
 quick_sort = QuickSort(lst_control, ascending)
 sorting_algorithm = Config.sorting_algorithm
-sorting_alg_name = sorting_algorithm.SORTING_ALG_NAME
+sorting_alg_name = sorting_algorithm.get_name()
+path = Config.path
+clear_file(path)
 sound = SoundControl()
 is_sorted = {'flag': False, 'ascending': True}
 clock = pygame.time.Clock()
@@ -42,7 +43,7 @@ while running:
             sound.play_sounds("success")
             sorting = False
             sound.stop_sounds("sorting")
-            print("Comp:", sort_with.count_of_comparisons, "Swaps:", sort_with.count_of_swaps)
+            write_to_file(sort_with, path)
     else:
         draw_info.draw(sorting_alg_name, ascending)  # обнуляє фон та малює заголовки
         SecondaryElements.show(box1, box2, box3)  # малює прямокутники та текст до них
@@ -100,15 +101,15 @@ while running:
             elif all([event.key == pygame.K_q, not sorting]):
                 sound.play_sounds("press key")
                 sorting_algorithm = QuickSort
-                sorting_alg_name = QuickSort.SORTING_ALG_NAME
+                sorting_alg_name = QuickSort.get_name()
             elif all([event.key == pygame.K_m, not sorting]):
                 sound.play_sounds("press key")
                 sorting_algorithm = MergeSort
-                sorting_alg_name = MergeSort.SORTING_ALG_NAME
+                sorting_alg_name = MergeSort.get_name()
             elif all([event.key == pygame.K_i, not sorting]):
                 sound.play_sounds("press key")
                 sorting_algorithm = IntroSort
-                sorting_alg_name = IntroSort.SORTING_ALG_NAME
+                sorting_alg_name = IntroSort.get_name()
             elif event.key in SecondaryElements.ALLOWED_BUTTONS and any(
                     SecondaryElements.is_active(box1, box2, box3)):  # чи є активна комірка
                 self = [x for x in SecondaryElements.is_active(box1, box2, box3) if

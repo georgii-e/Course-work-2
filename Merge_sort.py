@@ -70,5 +70,5 @@ class MergeSort:
     def get_comparisons(self):
         return self.__count_of_comparisons
 
-    def get_list_length(self):
-        return len(self.__lst)
+    def get_list(self):
+        return self.__lst

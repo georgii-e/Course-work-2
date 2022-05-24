@@ -29,13 +29,13 @@ class QuickSort:
                 j += 1
                 if j != i:
                     self.__count_of_swaps += 1
-                self.__lst[j], self.__lst[i] = self.__lst[i], self.__lst[j]
-                self.__lst_control.draw_list({i: DrawInfo.BLUE_COLOR, l: DrawInfo.RED_COLOR, j: DrawInfo.GREEN_COLOR},
-                                             True)
+                    self.__lst[j], self.__lst[i] = self.__lst[i], self.__lst[j]
+                self.__lst_control.draw_list(
+                    {i: DrawInfo.BLUE_COLOR, l: DrawInfo.RED_COLOR, j: DrawInfo.GREEN_COLOR}, True)
                 yield self.__lst
         if l != j:
             self.__count_of_swaps += 1
-        self.__lst[l], self.__lst[j] = self.__lst[j], self.__lst[l]
+            self.__lst[l], self.__lst[j] = self.__lst[j], self.__lst[l]
         self.__lst_control.draw_list({l: DrawInfo.RED_COLOR, j: DrawInfo.GREEN_COLOR}, True)
         yield self.__lst
         yield from self.sort(l, j - 1)
@@ -51,5 +51,5 @@ class QuickSort:
     def get_comparisons(self):
         return self.__count_of_comparisons
 
-    def get_list_length(self):
-        return len(self.__lst)
+    def get_list(self):
+        return self.__lst

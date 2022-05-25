@@ -55,7 +55,7 @@ class SecondaryElements:
         if self.__text == "Size:":
             if not (self.__user_text.isdigit() and int(self.__user_text) in range(
                     self.MIN_ADMISSIBLE_AMOUNT_OF_ELEMENTS,
-                    self.MAX_ADMISSIBLE_AMOUNT_OF_ELEMENTS)):
+                    self.MAX_ADMISSIBLE_AMOUNT_OF_ELEMENTS + 1)):
                 return False
             return True
         if self.__text == "Max value:" or self.__text == "Min value:":
@@ -81,6 +81,11 @@ class SecondaryElements:
             if not self.is_data_correct():
                 error_text_rect = DrawInfo.VERY_SMALL_FONT.render(self.ERROR_TEXT, 1, DrawInfo.RED_COLOR)
                 self.__screen.blit(error_text_rect, (self.__input_rect.x - 20, self.__y + self.__height + 5))
+        if boxes[1].__user_text == boxes[2].__user_text:
+            error_text_rect = DrawInfo.VERY_SMALL_FONT.render(boxes[1].ERROR_TEXT, 1, DrawInfo.RED_COLOR)
+            boxes[1].__screen.blit(error_text_rect, (boxes[1].__input_rect.x - 20, boxes[1].__y + boxes[1].__height + 5))
+            error_text_rect = DrawInfo.VERY_SMALL_FONT.render(boxes[1].ERROR_TEXT, 1, DrawInfo.RED_COLOR)
+            boxes[2].__screen.blit(error_text_rect, (boxes[2].__input_rect.x - 20, boxes[2].__y + boxes[2].__height + 5))
 
     @staticmethod
     def show(*boxes):

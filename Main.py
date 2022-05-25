@@ -80,7 +80,7 @@ while running:
                     n = int(box1.get_user_text())
                 if box2.is_data_correct():
                     max_v = int(box2.get_user_text())
-                if box3.is_data_correct():
+                if box3.is_data_correct() and box3.get_user_text() != box2.get_user_text():
                     min_v = int(box3.get_user_text())
                 lst_control.generate_list(n, min_v, max_v)  # аргументи або залишаться за замовч або ні
             elif all([event.key == pygame.K_SPACE, not sorting]):

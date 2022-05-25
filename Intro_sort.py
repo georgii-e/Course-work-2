@@ -40,24 +40,24 @@ class IntroSort:
         right = end
 
         while True:
-            left = left + 1
+            left += 1
             if self.__ascending:
                 while self.__lst[left] < pivot:
                     self.__count_of_comparisons += 1
-                    left = left + 1
+                    left += 1
             else:
                 while self.__lst[left] > pivot:
                     self.__count_of_comparisons += 1
-                    left = left + 1
-            right = right - 1
+                    left += 1
+            right -= 1
             if self.__ascending:
                 while self.__lst[right] > pivot:
                     self.__count_of_comparisons += 1
-                    right = right - 1
+                    right -= 1
             else:
                 while self.__lst[right] < pivot:
                     self.__count_of_comparisons += 1
-                    right = right - 1
+                    right -= 1
 
             if left >= right:
                 return right

@@ -20,7 +20,6 @@ sorting = False
 ascending = True
 lst_control = ArrayProcessing(draw_info.get_screen())
 lst_control.generate_list(n, min_v, max_v)
-quick_sort = QuickSort(lst_control, ascending)
 sorting_algorithm = Config.sorting_algorithm
 sorting_alg_name = sorting_algorithm.get_name()
 path = Config.path

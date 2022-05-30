@@ -1,6 +1,7 @@
 from math import log2, floor
 from Draw_Info import DrawInfo
 import time
+import copy
 
 
 class IntroSort:
@@ -14,6 +15,7 @@ class IntroSort:
         self.__count_of_swaps = 0
         self.__lst_control = lst_control
         self.__lst = self.__lst_control.get_lst()
+        self.__initial_lst = copy.deepcopy(self.__lst)
         self.__ascending = ascending
         self.__max_depth = floor(log2(len(self.__lst)))
 
@@ -67,13 +69,13 @@ class IntroSort:
         """Функція для обміну елементів місцями. Оскільки швидке сортування в
         даній реалізації не дозволяє використовувати генератор для повернення
         проміжного вигляду масиву, то для забезпечення візуалізації кожного обміну
-        використовується time.sleep(0.02). Час підібраний таким чином, щоб усі
+        використовується time.sleep(0.01). Час підібраний таким чином, щоб усі
         методи сортування виконувалися приблизно однаково, як і має бути враховуючи
         їх асимптотичну складність і щоб занадто частий виклик функції не спричиняв
         підвисання програми"""
         self.__count_of_swaps += 1
         self.__lst_control.draw_list({i: DrawInfo.GREEN_COLOR, j: DrawInfo.RED_COLOR}, True)
-        time.sleep(0.015)
+        time.sleep(0.01)
         self.__lst[i], self.__lst[j] = self.__lst[j], self.__lst[i]
 
     def heapsort(self, start, end):
@@ -139,3 +141,6 @@ class IntroSort:
 
     def get_list(self):
         return self.__lst
+
+    def get_initial_list(self):
+        return self.__initial_lst

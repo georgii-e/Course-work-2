@@ -41,13 +41,12 @@ class ArrayProcessing:
         """Виведення стовпців, за умовчанням сірого кольору, якщо функція викликається із
          функції сортування, то два стовпці що переставляються змінюють колір на червоний і зелений.
          clear_bg відповідає за необхідність оновлення екрану (при сортуванні - необхідно, в інших випадках - ні"""
-        lst = self.__lst
         if clear_bg:
             clear_rect = (self.SIDE_PAD // 2, self.TOP_PAD,
                           self.__width - self.SIDE_PAD, self.__height - self.TOP_PAD)
             pygame.draw.rect(self.__screen, DrawInfo.BACKGROUND_COLOR, clear_rect)
-        if len(lst) <= self.__amount_to_vis:
-            for i, val in enumerate(lst):
+        if len(self.__lst) <= self.__amount_to_vis:
+            for i, val in enumerate(self.__lst):
                 x = self.__start_x + i * self.__block_width
                 y = self.__height - (val - self.__min_value) * self.__block_height
                 color = DrawInfo.GRAYSCALE[i % 3]

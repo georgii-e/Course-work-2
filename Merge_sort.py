@@ -1,3 +1,4 @@
+import copy
 from Draw_Info import DrawInfo
 
 
@@ -13,6 +14,7 @@ class MergeSort:
         self.__count_of_swaps = 0
         self.__lst_control = lst_control
         self.__lst = self.__lst_control.get_lst()
+        self.__initial_lst = copy.deepcopy(self.__lst)
         self.__ascending = ascending
 
     def sort(self, start, end):
@@ -72,3 +74,6 @@ class MergeSort:
 
     def get_list(self):
         return self.__lst
+
+    def get_initial_list(self):
+        return self.__initial_lst

@@ -11,8 +11,8 @@ class SecondaryElements:
                        pygame.K_8, pygame.K_9, pygame.K_MINUS]  # цифри (від 1 до 9 та -) що будуть зчитуватися
     ERROR_TEXT = "Incorrect value"
     SUCCESS_TEXT = "SUCCESS"
-    MIN_ADMISSIBLE_AMOUNT_OF_ELEMENTS = 50  # допустимі межі розміру
-    MAX_ADMISSIBLE_AMOUNT_OF_ELEMENTS = 50000  # масиву згідно з варіантом
+    LOWER_RANGE_LIMIT = 50  # допустимі межі розміру
+    UPPER_RANGE_LIMIT = 50000  # масиву згідно з варіантом
 
     def __init__(self, text, x, y, screen):
         """Оголошення розмірів, координат та кольору другорядного тексту і форм введення"""
@@ -54,8 +54,8 @@ class SecondaryElements:
         """Перевірка коректності введених даних"""
         if self.__text == "Size:":
             if not (self.__user_text.isdigit() and int(self.__user_text) in range(
-                    self.MIN_ADMISSIBLE_AMOUNT_OF_ELEMENTS,
-                    self.MAX_ADMISSIBLE_AMOUNT_OF_ELEMENTS + 1)):
+                    self.LOWER_RANGE_LIMIT,
+                    self.UPPER_RANGE_LIMIT + 1)):
                 return False
             return True
         if self.__text == "Max value:" or self.__text == "Min value:":

@@ -8,8 +8,8 @@ class SoundControl:
     """Клас для вмикання/вимикання звукових ефектів"""
     def __init__(self):
         """Оголошення mp3 доріжок"""
-        self.sounds_on = Config.SOUNDS_ON
-        if self.sounds_on:
+        self.__sounds_on = Config.SOUNDS_ON
+        if self.__sounds_on:
             self.__success_sound = pygame.mixer.Sound("media/success.wav")
             self.__sorting_sound = pygame.mixer.Sound("media/sorting.mp3")
             self.__presskey_sound = pygame.mixer.Sound("media/presskey.mp3")
@@ -17,7 +17,7 @@ class SoundControl:
 
     def play_sounds(self, name):
         """Вмикання звуків"""
-        if self.sounds_on:
+        if self.__sounds_on:
             if name == "success":
                 self.__success_sound.play()
             elif name == "sorting":
@@ -29,6 +29,6 @@ class SoundControl:
 
     def stop_sounds(self, name="sorting"):
         """Вимикання звуків"""
-        if self.sounds_on:
+        if self.__sounds_on:
             if name == "sorting":
                 self.__sorting_sound.stop()

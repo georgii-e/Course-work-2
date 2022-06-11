@@ -9,10 +9,10 @@ class SecondaryElements:
     ALLOWED_BUTTONS = [pygame.K_0, pygame.K_1, pygame.K_2,
                        pygame.K_3, pygame.K_4, pygame.K_5, pygame.K_6, pygame.K_7,
                        pygame.K_8, pygame.K_9, pygame.K_MINUS]  # цифри (від 1 до 9 та -) що будуть зчитуватися
-    ERROR_TEXT = "Incorrect value"
-    SUCCESS_TEXT = "SUCCESS"
-    LOWER_RANGE_LIMIT = 50  # допустимі межі розміру
-    UPPER_RANGE_LIMIT = 50000  # масиву згідно з варіантом
+    __ERROR_TEXT = "Incorrect value"
+    __SUCCESS_TEXT = "SUCCESS"
+    __LOWER_RANGE_LIMIT = 50  # допустимі межі розміру
+    __UPPER_RANGE_LIMIT = 50000  # масиву згідно з варіантом
 
     def __init__(self, text, x, y, screen):
         """Оголошення розмірів, координат та кольору другорядного тексту і форм введення"""
@@ -54,8 +54,8 @@ class SecondaryElements:
         """Перевірка коректності введених даних"""
         if self.__text == "Size:":
             if not (self.__user_text.isdigit() and int(self.__user_text) in range(
-                    self.LOWER_RANGE_LIMIT,
-                    self.UPPER_RANGE_LIMIT + 1)):
+                    self.__LOWER_RANGE_LIMIT,
+                    self.__UPPER_RANGE_LIMIT + 1)):
                 return False
             return True
         if self.__text == "Max value:" or self.__text == "Min value:":
@@ -68,8 +68,8 @@ class SecondaryElements:
 
     @staticmethod
     def output_success(screen):
-        """Виведення повідомлення про успішне сортування без візуалізації"""
-        success_text_rect = DrawInfo.LARGE_FONT.render(SecondaryElements.SUCCESS_TEXT, 1, DrawInfo.SUBTITLE_TEXT_COLOR)
+        """Виведення повідомлення про успішне сортування"""
+        success_text_rect = DrawInfo.LARGE_FONT.render(SecondaryElements.__SUCCESS_TEXT, 1, DrawInfo.SUBTITLE_TEXT_COLOR)
         screen.blit(success_text_rect, ((DrawInfo.WIDTH - success_text_rect.get_width()) / 2,
                                         (DrawInfo.HEIGHT - success_text_rect.get_height()) / 2))
 
@@ -79,12 +79,12 @@ class SecondaryElements:
         і виводить повідомлення у разі їх некоректності"""
         for self in boxes:
             if not self.is_data_correct():
-                error_text_rect = DrawInfo.VERY_SMALL_FONT.render(self.ERROR_TEXT, 1, DrawInfo.RED_COLOR)
+                error_text_rect = DrawInfo.VERY_SMALL_FONT.render(self.__ERROR_TEXT, 1, DrawInfo.RED_COLOR)
                 self.__screen.blit(error_text_rect, (self.__input_rect.x - 20, self.__y + self.__height + 5))
         if boxes[1].__user_text == boxes[2].__user_text:
-            error_text_rect = DrawInfo.VERY_SMALL_FONT.render(boxes[1].ERROR_TEXT, 1, DrawInfo.RED_COLOR)
+            error_text_rect = DrawInfo.VERY_SMALL_FONT.render(boxes[1].__ERROR_TEXT, 1, DrawInfo.RED_COLOR)
             boxes[1].__screen.blit(error_text_rect, (boxes[1].__input_rect.x - 20, boxes[1].__y + boxes[1].__height + 5))
-            error_text_rect = DrawInfo.VERY_SMALL_FONT.render(boxes[1].ERROR_TEXT, 1, DrawInfo.RED_COLOR)
+            error_text_rect = DrawInfo.VERY_SMALL_FONT.render(boxes[1].__ERROR_TEXT, 1, DrawInfo.RED_COLOR)
             boxes[2].__screen.blit(error_text_rect, (boxes[2].__input_rect.x - 20, boxes[2].__y + boxes[2].__height + 5))
 
     @staticmethod

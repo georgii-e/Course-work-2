@@ -12,6 +12,7 @@ import pygame
 
 
 def main():
+    """Головна функція програми, уловлює дії користувача, та реагує на них"""
     pygame.init()
     n = Config.n
     min_v = Config.min_v
@@ -23,7 +24,7 @@ def main():
     lst_control = ArrayProcessing(draw_info.get_screen())
     lst_control.generate_list(n, min_v, max_v)
     sorting_algorithm = Config.sorting_algorithm
-    sorting_alg_name = sorting_algorithm.get_name()
+    sorting_alg_name = sorting_algorithm.SORTING_ALG_NAME
     path = Config.path
     clear_file(path)
     sound = SoundControl()
@@ -102,15 +103,15 @@ def main():
                 elif all([event.key == pygame.K_q, not sorting]):
                     sound.play_sounds("press key")
                     sorting_algorithm = QuickSort
-                    sorting_alg_name = QuickSort.get_name()
+                    sorting_alg_name = QuickSort.SORTING_ALG_NAME
                 elif all([event.key == pygame.K_m, not sorting]):
                     sound.play_sounds("press key")
                     sorting_algorithm = MergeSort
-                    sorting_alg_name = MergeSort.get_name()
+                    sorting_alg_name = MergeSort.SORTING_ALG_NAME
                 elif all([event.key == pygame.K_i, not sorting]):
                     sound.play_sounds("press key")
                     sorting_algorithm = IntroSort
-                    sorting_alg_name = IntroSort.get_name()
+                    sorting_alg_name = IntroSort.SORTING_ALG_NAME
                 elif event.key in SecondaryElements.ALLOWED_BUTTONS and any(
                         SecondaryElements.is_active(box1, box2, box3)):  # чи є активна комірка
                     self = [x for x in SecondaryElements.is_active(box1, box2, box3) if

@@ -11,7 +11,7 @@ def clear_file(path):
 def write_to_file(sort_info, path):
     final_lst = sort_info.get_list()
     initial_lst = sort_info.get_initial_list()
-    line1 = "Sort method: " + sort_info.get_name() + "\n"
+    line1 = "Sort method: " + sort_info.SORTING_ALG_NAME + "\n"
     line2 = "Number of elements: " + str(len(final_lst)) + "\n"
     line3 = "Count of swaps: " + str(sort_info.get_swaps()) + "\n"
     line4 = "Count of comparisons: " + str(sort_info.get_comparisons()) + "\n"

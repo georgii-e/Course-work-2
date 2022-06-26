@@ -1,6 +1,7 @@
 from math import log2, floor
 from Base_sort import BaseSort
 from Draw_Info import DrawInfo
+import Config
 import time
 
 
@@ -67,7 +68,8 @@ class IntroSort(BaseSort):
         використовується time.sleep(0.01)"""
         self._count_of_swaps += 1
         self._lst_control.draw_list({i: DrawInfo.GREEN_COLOR, j: DrawInfo.RED_COLOR}, True)
-        time.sleep(0.01)
+        if len(self._lst) < Config.MAX_AMOUNT_TO_VIS:
+            time.sleep(0.01)
         self._lst[i], self._lst[j] = self._lst[j], self._lst[i]
 
     def heapsort(self, start, end):

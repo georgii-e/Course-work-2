@@ -59,7 +59,7 @@ class SecondaryElements:
                 return False
             return True
         if self.__text == "Max value:" or self.__text == "Min value:":
-            is_digit = lambda x: x.isdigit() if x[:1] != '-' else x[1:].isdigit()
+            is_digit = lambda x: x.isdigit() if x[:1] != '-' else x[1:].isdigit() and int(x[1:]) != 0
             if not is_digit(self.__user_text):
                 return False
             return True
@@ -69,7 +69,8 @@ class SecondaryElements:
     @staticmethod
     def output_success(screen):
         """Виведення повідомлення про успішне сортування"""
-        success_text_rect = DrawInfo.LARGE_FONT.render(SecondaryElements.__SUCCESS_TEXT, 1, DrawInfo.SUBTITLE_TEXT_COLOR)
+        success_text_rect = DrawInfo.LARGE_FONT.render(SecondaryElements.__SUCCESS_TEXT, 1,
+                                                       DrawInfo.SUBTITLE_TEXT_COLOR)
         screen.blit(success_text_rect, ((DrawInfo.WIDTH - success_text_rect.get_width()) / 2,
                                         (DrawInfo.HEIGHT - success_text_rect.get_height()) / 2))
 
@@ -83,9 +84,11 @@ class SecondaryElements:
                 self.__screen.blit(error_text_rect, (self.__input_rect.x - 20, self.__y + self.__height + 5))
         if boxes[1].__user_text == boxes[2].__user_text:
             error_text_rect = DrawInfo.VERY_SMALL_FONT.render(boxes[1].__ERROR_TEXT, 1, DrawInfo.RED_COLOR)
-            boxes[1].__screen.blit(error_text_rect, (boxes[1].__input_rect.x - 20, boxes[1].__y + boxes[1].__height + 5))
+            boxes[1].__screen.blit(error_text_rect,
+                                   (boxes[1].__input_rect.x - 20, boxes[1].__y + boxes[1].__height + 5))
             error_text_rect = DrawInfo.VERY_SMALL_FONT.render(boxes[1].__ERROR_TEXT, 1, DrawInfo.RED_COLOR)
-            boxes[2].__screen.blit(error_text_rect, (boxes[2].__input_rect.x - 20, boxes[2].__y + boxes[2].__height + 5))
+            boxes[2].__screen.blit(error_text_rect,
+                                   (boxes[2].__input_rect.x - 20, boxes[2].__y + boxes[2].__height + 5))
 
     @staticmethod
     def show(*boxes):
